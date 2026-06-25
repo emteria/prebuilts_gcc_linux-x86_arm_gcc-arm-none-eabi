@@ -48,23 +48,6 @@
         This represents what type a float arg is passed as.  It is used when the type is
         not promoted to double.
 	
-
-   __OBSOLETE_MATH_DEFAULT
-
-	Default value for __OBSOLETE_MATH if that's not set by the user.
-	It should be set here based on predefined feature macros.
-
-   __OBSOLETE_MATH
-
-	If set to 1 then some new math code will be disabled and older libm
-	code will be used instead.  This is necessary because the new math
-	code does not support all targets, it assumes that the toolchain has
-	ISO C99 support (hexfloat literals, standard fenv semantics), the
-	target has IEEE-754 conforming binary32 float and binary64 double
-	(not mixed endian) representation, standard SNaN representation,
-	double and single precision arithmetics has similar latency and it
-	has no legacy SVID matherr support, only POSIX errno and fenv
-	exception based error handling.
 */
 
 #if (defined(__arm__) || defined(__thumb__)) && !defined(__MAVERICK__)
@@ -77,9 +60,6 @@
 #  define __IEEE_LITTLE_ENDIAN
 # else
 #  define __IEEE_BIG_ENDIAN
-# endif
-# if __ARM_FP & 0x8
-#  define __OBSOLETE_MATH_DEFAULT 0
 # endif
 #else
 # define __IEEE_BIG_ENDIAN
@@ -95,7 +75,6 @@
 #else
 #define __IEEE_BIG_ENDIAN
 #endif
-#define __OBSOLETE_MATH_DEFAULT 0
 #endif
 
 #ifdef __epiphany__
@@ -188,10 +167,6 @@
 #endif
 
 #ifdef __i386__
-#define __IEEE_LITTLE_ENDIAN
-#endif
-
-#ifdef __riscv
 #define __IEEE_LITTLE_ENDIAN
 #endif
 
@@ -308,10 +283,6 @@
 #define __IEEE_BIG_ENDIAN
 #endif
 
-#ifdef __FT32__
-#define __IEEE_LITTLE_ENDIAN
-#endif
-
 #ifdef __mcore__
 #define __IEEE_BIG_ENDIAN
 #endif
@@ -345,7 +316,7 @@
 #define _DOUBLE_IS_32BITS
 #endif
 
-#if defined(__or1k__) || defined(__OR1K__) || defined(__OR1KND__)
+#if defined(__or32__) || defined(__or1k__) || defined(__or16__)
 #define __IEEE_BIG_ENDIAN
 #endif
 
@@ -408,9 +379,7 @@
 #ifdef __RL78__
 #define __IEEE_LITTLE_ENDIAN
 #define __SMALL_BITFIELDS	/* 16 Bit INT */
-#ifndef __RL78_64BIT_DOUBLES__
 #define _DOUBLE_IS_32BITS
-#endif
 #endif
 
 #ifdef __RX__
@@ -442,18 +411,6 @@
 # else
 #  define __IEEE_LITTLE_ENDIAN
 # endif
-#endif
-
-#ifdef __VISIUM__
-#define __IEEE_BIG_ENDIAN
-#endif
-
-#ifndef __OBSOLETE_MATH_DEFAULT
-/* Use old math code by default.  */
-#define __OBSOLETE_MATH_DEFAULT 1
-#endif
-#ifndef __OBSOLETE_MATH
-#define __OBSOLETE_MATH __OBSOLETE_MATH_DEFAULT
 #endif
 
 #ifndef __IEEE_BIG_ENDIAN

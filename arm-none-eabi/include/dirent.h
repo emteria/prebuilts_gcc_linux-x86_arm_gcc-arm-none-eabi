@@ -3,10 +3,9 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include <sys/cdefs.h>
 #include <sys/dirent.h>
 
-#if !defined(MAXNAMLEN) && __BSD_VISIBLE
+#if !defined(MAXNAMLEN) && !defined(_POSIX_SOURCE)
 #define MAXNAMLEN 1024
 #endif
 

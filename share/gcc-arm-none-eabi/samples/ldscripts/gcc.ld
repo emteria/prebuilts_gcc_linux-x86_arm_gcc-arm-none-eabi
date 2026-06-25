@@ -118,11 +118,8 @@ SECTIONS
 	} > FLASH
 	*/
 
-	/* Location counter can end up 2byte aligned with narrow Thumb code but
-	   __etext is assumed by startup code to be the LMA of a section in RAM
-	   which must be 4byte aligned */
-	__etext = ALIGN (4);
-
+	__etext = .;
+		
 	.data : AT (__etext)
 	{
 		__data_start__ = .;
